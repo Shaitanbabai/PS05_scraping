@@ -23,11 +23,15 @@ class DivannewparsSpider(scrapy.Spider):
         lamps = response.css('div.product-item')
         for i, lamp in enumerate(lamps, start=1):
             name = lamp.css('div.name a::text').get()
-            price = lamp.css('div.price.ys_p::text').get()
-            url = lamp.css('a').attrib['href']
             name = name.strip() if name else None
-            price = price.strip() if price else None
-            url = url.strip() if url else None
+            price = lamp.css('div.price.ys_p::text').get()
+            price = float(price.replace(' ', '')).round(2)
+            url = response.urljoin(lamp.css('div.name a::attr(href)').get())
+            """
+            Метод `response.urljoin()` принимает относительный URL, извлеченный с помощью \n
+            `lamp.css('div.name a::attr(href)').get()`, объединяет его с базовым URL текущей страницы `response.url`, \n
+             чтобы получить полный адрес для сохранения в CSV-файле
+            """
             print(f"Lamp {i}: Name: {name}, Price: {price}, URL: {url}")
             yield {
                     'name': name,

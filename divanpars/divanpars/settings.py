@@ -11,8 +11,6 @@ BOT_NAME = "divanpars"
 
 SPIDER_MODULES = ["divanpars.spiders"]
 NEWSPIDER_MODULE = "divanpars.spiders"
-FEED_FORMAT = 'json'
-FEED_URI = 'output.json'
 
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
