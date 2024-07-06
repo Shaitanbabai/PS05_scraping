@@ -25,8 +25,10 @@ class DivannewparsSpider(scrapy.Spider):
             name = lamp.css('div.name a::text').get()
             name = name.strip() if name else None
             price = lamp.css('div.price.ys_p::text').get()
-            price = float(price.replace(' ', '')).round(2)
-            url = response.urljoin(lamp.css('div.name a::attr(href)').get())
+            price = float(price.replace(' ', ''))
+            price = round(price, 2)
+            relative_url = lamp.css('div.name a::attr(href)').get()
+            url = response.urljoin(relative_url) if relative_url else None
             """
             Метод `response.urljoin()` принимает относительный URL, извлеченный с помощью \n
             `lamp.css('div.name a::attr(href)').get()`, объединяет его с базовым URL текущей страницы `response.url`, \n
